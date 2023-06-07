@@ -39,22 +39,12 @@
      padding-bottom: 5px;
  }
 
- .container form .inputBox input,
- .container form .inputBox select {
+ .container form .inputBox input {
     width: 100%;
     padding: 10px;
     border-radius: 15px;
     border: 1px solid rgba(0, 0, 0, .2);
     color: #444;
- }
-
- .container form .flexbox {
-    display: flex;
-    gap: 20px;
- }
-
- .container form .flexbox .inputBox {
-    flex: 1 1 100px;
  }
 
  .container form .submit-btn {

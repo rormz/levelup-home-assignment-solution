@@ -2,69 +2,75 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="js/index.js">
     <title>Credit Card Payment Form</title>
 </head>
 
 <body>
     <div class="container">
-        <form action="">
+        <form action="" id="creditCardForm">
             <div class="inputBox">
                 <span>card number</span>
-                <input type="text" class="card-number-input">
+                <input type="text" id="cardNumber" class="card-number-input" required>
             </div>
             <div class="inputBox">
                 <span>card holder</span>
-                <input type="text" class="card-holder-input">
+                <input type="text" class="card-holder-input" required>
             </div>
             <div class="flexbox">
                 <div class="inputBox">
-                    <span>expiration mm</span>
-                    <select name="" id="" class="month-input">
-                        <option value="month" selected disabled>month</option>
-                        <option value="01">01</option>
-                        <option value="02">02</option>
-                        <option value="03">03</option>
-                        <option value="04">04</option>
-                        <option value="05">05</option>
-                        <option value="06">06</option>
-                        <option value="07">07</option>
-                        <option value="08">08</option>
-                        <option value="09">09</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                    </select>
-                </div>
+                    <span>expiry date</span>
+                    <input type="text" placeholder="MM/YYYY" id="expiryDate" required>
 
-                <div class="inputBox">
-                    <span>expiration yy</span>
-                    <select name="" id="" class="year-input">
-                        <option value="year" selected disabled>year</option>
-                        <option value="2023">2023</option>
-                        <option value="2024">2024</option>
-                        <option value="2025">2025</option>
-                        <option value="2026">2026</option>
-                        <option value="2027">2027</option>
-                        <option value="2028">2028</option>
-                        <option value="2029">2029</option>
-                        <option value="2030">2030</option>
-                        <option value="2031">2031</option>
-                        <option value="2032">2032</option>
-                    </select>
+                    <div class="inputBox">
+                        <span>cvv</span>
+                        <input type="text" class="cvv-input" required>
+                    </div>
                 </div>
-
-                <div class="inputBox">
-                    <span>cvv</span>
-                    <input type="text" class="cvv-input">
-                </div>
-            </div>
-            <input type="submit" value="submit" class="submit-btn">
+                <input type="submit" value="Submit" class="submit-btn">
         </form>
     </div>
+
+    <div id="validationResult"></div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('creditCardForm');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                let cardNumber = document.getElementById('cardNumber').value;
+                let expiryDate = document.getElementById('expiryDate').value;
+                let cvv = document.getElementById('cvv').value;
+
+                // Make API call to backend
+                const request = new XMLHttpRequest();
+                request.open('POST', '/validate', true);
+                request.setRequestHeader('Content-Type', 'application/json');
+                request.onload = function () {
+                    if (request.status >= 200 && request.status < 400) {
+                        let response = JSON.parse(request.responseText);
+                        if (response.success) {
+                            document.getElementById('validationResult').innerHTML = '<span style="color: green;">Validation success!</span>';
+                        } else {
+                            document.getElementById('validationResult').innerHTML = '<span style="color: red;">Validation failed!</span>';
+                        }
+                    } else {
+                        document.getElementById('validationResult').innerHTML = 'Error occurred while validating.';
+                    }
+                };
+                request.onerror = function () {
+                    document.getElementById('validationResult').innerHTML = 'Error occurred while validating.';
+                };
+                request.send(JSON.stringify({ cardNumber, expiryDate, cvv }));
+            });
+        });
+
+    </script>
+
 </body>
 
 </html>
