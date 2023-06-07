@@ -7,8 +7,9 @@ This solution provides a simple web application for credit card validation. It c
 The backend is implemented using pure JavaScript without any specific frameworks. It provides an API endpoint for credit card validation.
 
 ### Usage
-
-Clone this repository and open the ‘index.html’ on a host server.
+Go to the following link:
+https://rormz.github.io/levelup-home-assignment-solution/
+Or clone this repository and open the ‘index.html’ on a host server.
 
 ## Frontend
 
